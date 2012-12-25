@@ -1,17 +1,23 @@
 @(tweetForm: Form[String], tweets: List[Tweet])
 
 @import helper._
+@import helper.twitterBootstrap._
 
 @main("Welcome to Play 2.0") {
-  @form(routes.Application.tweet()){
-    @textarea(tweetForm("content"))
-    <input type="submit" value="tweet"/>
-  }
-  
+<div class="row">
+  <div class="span3">
+    @form(routes.Application.tweet()){
+      @textarea(tweetForm("content"))
+      <input type="submit" class="btn btn-primary" value="tweet"/>
+    }
+  </div>
+  <div class="span9">
   @for(tweet <- tweets){
     <div class="tweet">
       <div class="content">@tweet.content</div>
       <div class="created_at">@tweet.createdAt</div>
     </div>
-  }
+    }
+  </div>
+</div>
 }

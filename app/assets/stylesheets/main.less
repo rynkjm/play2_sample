@@ -1,0 +1,17 @@
+#body {
+  margin-top: 60px;
+}
+@font-color: #333;
+.tweet {
+  border-bottom: 1px solid #ccc;
+  padding: 0.5em 0em 0.5em 0.5em;
+  
+  .content {
+    color: @font-color
+  }
+
+  .created_at{
+    color: lighten(@font-color, 30%);
+    font-size: 0.8em;
+  }
+}
