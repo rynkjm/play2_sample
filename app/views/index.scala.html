@@ -1,7 +1,17 @@
-@(message: String)
+@(tweetForm: Form[String], tweets: List[Tweet])
+
+@import helper._
 
 @main("Welcome to Play 2.0") {
-    
-    @play20.welcome(message)
-    
+  @form(routes.Application.tweet()){
+    @textarea(tweetForm("content"))
+    <input type="submit" value="tweet"/>
+  }
+  
+  @for(tweet <- tweets){
+    <div class="tweet">
+      <div class="content">@tweet.content</div>
+      <div class="created_at">@tweet.createdAt</div>
+    </div>
+  }
 }
