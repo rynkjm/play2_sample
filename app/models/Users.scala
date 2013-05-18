@@ -53,7 +53,7 @@ object Users {
   /**
    * ユーザ登録
    */
-  def create(user: User){
+  def create(user: User) = {
     DB.withTransaction{ implicit c =>
       SQL(
         """
