@@ -12,12 +12,12 @@ object Application extends Controller {
     "content" -> nonEmptyText(maxLength = 140)
   )
 
-  def index = Action {
+  def index = TODO /*Action {
     Ok(views.html.index( tweetForm, Tweet.all() ))
-  }
+  }*/
 
 
-  def tweet = Action { implicit request =>
+  def tweet = TODO /*Action { implicit request =>
     tweetForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index(errors, Tweet.all())) ,
       content => {
@@ -25,7 +25,7 @@ object Application extends Controller {
         Redirect(routes.Application.index)
       }
     )
-  }
+  }*/
 
   def signin = Action {
     Ok(views.html.signin())
