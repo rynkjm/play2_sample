@@ -27,4 +27,7 @@ object Application extends Controller {
     )
   }
 
+  def signin = Action {
+    Ok(views.html.signin())
+  }
 }
