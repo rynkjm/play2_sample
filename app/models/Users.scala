@@ -74,7 +74,7 @@ object Users {
       SQL(
         """
         |INSERT INTO users (
-        | users.twitter_id, users.name, users.token, users.secret, users.screen_name, users.created_at
+        | twitter_id, name, token, secret, screen_name, created_at
         |) VALUES (
         | {twitterId}, {name}, {token}, {secret}, {screenName}, {createdAt}
         |) ;
@@ -84,7 +84,7 @@ object Users {
           ,'name -> user.name
           ,'token -> user.token
           ,'secret -> user.secret
-          ,'screenNmae -> user.screenName
+          ,'screenName -> user.screenName
           ,'createdAt -> DateTime.now().toDate()
       ).executeUpdate
     }
