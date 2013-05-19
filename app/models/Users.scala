@@ -49,7 +49,23 @@ object Users {
       ).on('id -> id).as(simple.singleOpt)
     }
   }
-
+  
+  /**
+   * twittre id で取得
+   */
+  def findTwitterUserBy(twitterId:Long): Option[User] = {
+    DB.withTransaction{ implicit c =>
+      SQL("""
+          |SELECT
+          | * 
+          |FROM
+          | users 
+          |WHERE
+          | users.twitter_id = {id} ;
+          """.stripMargin
+      ).on('id -> twitterId).as(simple.singleOpt)
+    }
+  }
   /**
    * ユーザ登録
    */
