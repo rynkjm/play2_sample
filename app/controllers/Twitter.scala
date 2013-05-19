@@ -24,6 +24,7 @@ import models.Users
 import org.joda.time.DateTime
 import models.User
 import models.User
+import models.Tweets
 
 object Twitter extends Controller {
   // twitter oauth
@@ -119,6 +120,9 @@ object Twitter extends Controller {
     Logger.info("callbackUrl = " + callbackUrl)*/
     
   }
+  
+  // TODO
+  def delete(tweetId:Long) = TODO
   
   /**
    * セッショントークンペア

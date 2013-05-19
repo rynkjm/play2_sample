@@ -11,5 +11,8 @@ GET     /signin                     controllers.Application.signin
 GET     /auth                       controllers.Twitter.authenticate
 GET     /logout                     controllers.Application.logout
 
+# tweet
+DELETE  /tweets/:tweetId            controllers.Twitter.delete(tweetId: Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
