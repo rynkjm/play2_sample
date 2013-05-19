@@ -134,4 +134,22 @@ object Users {
       ).executeUpdate
     }
   }
+  
+  def authentication(token:String, secret: String) = {
+    DB.withTransaction{ implicit c =>
+      SQL("""
+          |SELECT
+          | *
+          |FROM
+          | users
+          |WHERE
+          | token = {token}
+          |AND
+          | secret = {secret};
+          """.stripMargin
+      ).on(
+          'token -> token, 'secret -> secret
+      ).as(simple.singleOpt)
+    }
+  }
 }
