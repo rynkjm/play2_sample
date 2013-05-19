@@ -5,6 +5,7 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import models._
+import play.mvc.Redirect
 
 object Application extends Controller {
   
@@ -29,5 +30,9 @@ object Application extends Controller {
 
   def signin = Action {
     Ok(views.html.signin())
+  }
+  
+  def logout = Action {
+    Redirect(routes.Application.signin).withNewSession
   }
 }
