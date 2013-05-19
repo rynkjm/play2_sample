@@ -20,6 +20,10 @@ import play.api.libs.ws.WS
 import play.api.libs.json.JsValue
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import models.Users
+import org.joda.time.DateTime
+import models.User
+import models.User
 
 object Twitter extends Controller {
   // twitter oauth
@@ -67,7 +71,32 @@ object Twitter extends Controller {
             val name = (json \ "name").asOpt[String]
             val screenName = (json \ "screen_name").asOpt[String]
             
-            // TODO: DBにインサート処理
+            val user = Users.findTwitterUserBy(twitterId.get)
+            user match {
+              case Some(user) => //更新処理
+                Logger.info("user update")
+                Users.updateUserBy(
+                    User(twitterId=user.twitterId
+                        ,name=name.get
+                        ,token=t.token
+                        ,secret=t.secret
+                        ,screenName=screenName.get
+                        ,createdAt=DateTime.now().toDate()
+                        )
+                )
+              case None => //新規登録
+                Logger.info("user insert")
+                Users.create(
+                    User(twitterId=twitterId.get
+                        ,name=name.get
+                        ,token=t.token
+                        ,secret=t.secret
+                        ,screenName=screenName.get
+                        ,createdAt=DateTime.now().toDate()
+                        )
+                )
+            }
+
             
             
             Redirect(routes.Application.index).withSession(
@@ -85,10 +114,10 @@ object Twitter extends Controller {
     )
     
     
-    Logger.info("consumer key = " + consumerKey)
+    /*Logger.info("consumer key = " + consumerKey)
     Logger.info("consumer Secret = " + consumerSecret)
-    Logger.info("callbackUrl = " + callbackUrl)
-    Ok
+    Logger.info("callbackUrl = " + callbackUrl)*/
+    
   }
   
   /**
