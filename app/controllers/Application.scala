@@ -5,6 +5,7 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import models._
+import views.html.defaultpages.unauthorized
 
 
 object Application extends Controller {
@@ -13,23 +14,38 @@ object Application extends Controller {
     "content" -> nonEmptyText(maxLength = 140)
   )
 
-  def index = Action{Ok} /*Action {
-    Ok(views.html.index( tweetForm, Tweet.all() ))
-  }*/
+  def index = Action { implicit request =>
+    session.get("userId").map { userId =>
+      Logger.info("ok = " + userId)
+      Ok(views.html.index( tweetForm, Tweets.findAllBy(userId.toLong) ))
+    }.getOrElse{
+      Logger.info("ng")
+      Redirect(routes.Application.signin)
+    }
+  }
 
 
-  def tweet = TODO /*Action { implicit request =>
-    tweetForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(errors, Tweet.all())) ,
-      content => {
-        Tweet.create(content)
-        Redirect(routes.Application.index)
-      }
-    )
-  }*/
+  def tweet = Action { implicit request =>
+    session.get("userId").map { userId =>
+      tweetForm.bindFromRequest.fold(
+        errors => BadRequest(views.html.index(errors, Tweets.findAllBy(userId.toLong))) ,
+        content => {
+          Tweets.create(content, userId.toLong)
+          Redirect(routes.Application.index)
+        }
+      )
+    }.getOrElse{
+      Redirect(routes.Application.signin)
+    }
 
-  def signin = Action {
-    Ok(views.html.signin())
+  }
+
+  def signin = Action { implicit request =>
+    session.get("userId").map{ userId =>
+      Redirect(routes.Application.index)
+    }.getOrElse{
+      Ok(views.html.signin())
+    }
   }
   
   def logout = Action {
