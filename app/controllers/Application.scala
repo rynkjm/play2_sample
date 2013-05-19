@@ -12,7 +12,7 @@ object Application extends Controller {
     "content" -> nonEmptyText(maxLength = 140)
   )
 
-  def index = TODO /*Action {
+  def index = Action{Ok} /*Action {
     Ok(views.html.index( tweetForm, Tweet.all() ))
   }*/
 
