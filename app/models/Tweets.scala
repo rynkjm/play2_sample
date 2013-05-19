@@ -50,17 +50,17 @@ object Tweets{
   /**
    * ツイート登録
    */
-  def create(tweet:Tweet) = {
+  def create(content:String , userId: Long) = {
     DB.withTransaction{ implicit c =>
       SQL("""
           |INSERT INTO tweets (
-          | tweets.users_id, tweets.content, tweets.created_at
+          | users_id, content, created_at
           |) VALUES (
           | {usersId}, {content}, {createdAt}
           |);
           """.stripMargin
       ).on(
-          'usersId -> tweet.usersId, 'content -> tweet.content, 'createdAt -> DateTime.now().toDate()
+          'usersId -> userId.toString, 'content -> content, 'createdAt -> DateTime.now().toDate()
       ).executeUpdate
     }
   }
