@@ -97,10 +97,10 @@ object Twitter extends Controller {
                 )
             }
 
-            
+            val userId = Users.authentication(t.token, t.secret).get.id.get
             
             Redirect(routes.Application.index).withSession(
-                "token" -> t.token, "secret" -> t.secret
+                "token" -> t.token, "secret" -> t.secret, "userId" -> userId.toString 
             )
           case Left(e) => throw e
         }
